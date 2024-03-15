@@ -8,7 +8,7 @@ import WonBanner from '../WonBanner';
 import LostBanner from '../LostBanner';
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants.js';
 
-function Game() {
+function Game({ restart }) {
   const [answer] = React.useState(() => {
     const initialAnswer = sample(WORDS);
     console.info({ answer: initialAnswer });
@@ -34,9 +34,9 @@ function Game() {
       <GuessInput addGuess={addGuess} disabled={isGameOver()} />
       {isGameOver() &&
         (isGameWon() ? (
-          <WonBanner numGuesses={guesses.length} />
+          <WonBanner numGuesses={guesses.length} restart={restart} />
         ) : (
-          <LostBanner answer={answer} />
+          <LostBanner answer={answer} restart={restart} />
         ))}
     </>
   );
