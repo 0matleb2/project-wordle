@@ -4,7 +4,9 @@ import { sample } from '../../utils';
 import { WORDS } from '../../data';
 import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
-import { checkGuess } from '../../game-helpers';
+import WonBanner from '../WonBanner';
+import LostBanner from '../LostBanner';
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants.js';
 
 function Game() {
   const [answer] = React.useState(() => {
@@ -15,16 +17,27 @@ function Game() {
   const [guesses, setGuesses] = React.useState([]);
 
   function addGuess(guess) {
-    if (guesses.length >= 6) {
-      return;
-    }
-    setGuesses([...guesses, checkGuess(guess, answer)]);
+    isGameOver() || setGuesses([...guesses, guess]);
+  }
+
+  function isGameOver() {
+    return guesses.length >= NUM_OF_GUESSES_ALLOWED || isGameWon();
+  }
+
+  function isGameWon() {
+    return guesses.includes(answer);
   }
 
   return (
     <>
-      <GuessResults guesses={guesses} />
-      <GuessInput addGuess={addGuess} />
+      <GuessResults guesses={guesses} answer={answer} />
+      <GuessInput addGuess={addGuess} disabled={isGameOver()} />
+      {isGameOver() &&
+        (isGameWon() ? (
+          <WonBanner numGuesses={guesses.length} />
+        ) : (
+          <LostBanner answer={answer} />
+        ))}
     </>
   );
 }
