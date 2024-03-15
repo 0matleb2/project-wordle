@@ -23,10 +23,7 @@ function GuessInput({ addGuess }) {
 
   function handleGuessSubmit(event) {
     event.preventDefault();
-    addGuess({
-      id: window.crypto.randomUUID(),
-      value: guess,
-    });
+    addGuess(guess);
     setGuess('');
   }
 
