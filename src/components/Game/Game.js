@@ -6,6 +6,7 @@ import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
 import WonBanner from '../WonBanner';
 import LostBanner from '../LostBanner';
+import VisualKeyboard from '../VisualKeyboard';
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants.js';
 
 function Game({ restart }) {
@@ -32,6 +33,7 @@ function Game({ restart }) {
     <>
       <GuessResults guesses={guesses} answer={answer} />
       <GuessInput addGuess={addGuess} disabled={isGameOver()} />
+      <VisualKeyboard guesses={guesses} answer={answer} />
       {isGameOver() &&
         (isGameWon() ? (
           <WonBanner numGuesses={guesses.length} restart={restart} />
